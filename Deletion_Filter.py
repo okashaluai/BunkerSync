@@ -5,7 +5,8 @@ class deletion_filter(Sync_Filter):
         super().__init__("Deletion filter")
     
     def apply_filter(self, path_to_filter):
-        print(super()._filter_name + ":")
+        
+        print(self._filter_name + ":")
         with open("./config/roadside.txt", "r") as roadside:
             targets = roadside.readlines()
             for target in targets:
@@ -13,9 +14,9 @@ class deletion_filter(Sync_Filter):
                 if os.path.exists(full_path):
                     if os.path.isfile(full_path):
                         os.remove(full_path)
-                        print(full_path + "was deleted!")
+                        print(full_path , "was deleted!")
                     elif os.path.isdir(full_path):
                         os.rmdir(full_path)
-                        print(full_path + "was deleted!")
+                        print(full_path , "was deleted!")
                 else:
-                    print(full_path + "does not exist.")
+                    print(full_path , "does not exist.")

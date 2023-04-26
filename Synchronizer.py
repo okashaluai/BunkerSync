@@ -19,8 +19,9 @@ class Synchronizer:
 
     def run(self, source_repo_url, target_repo_url):
         self._sync_pool.clone_from_source(source_repo_url)
-        filter = deletion_filter()
-        self._sync_pool.filter_pool(filter)
-        self._sync_pool.merge_to_target(target_repo_url)
+        
+        #filter = deletion_filter()
+        #self._sync_pool.filter_pool(branch, filter)
+        #self._sync_pool.merge_to_target(target_repo_url)
         pass
 
