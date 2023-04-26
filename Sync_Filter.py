@@ -1,5 +1,11 @@
-class Sync_Filter:
+from abc import ABC, abstractmethod
 
-    def request_filter(self, path_to_filter, filter):
+class Sync_Filter:
+    def __init__(self, filter_name):
+        self._filter_name = filter_name
+        pass
+
+    @abstractmethod
+    def apply_filter(self, path_to_filter):
         pass
     pass
