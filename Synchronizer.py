@@ -7,7 +7,7 @@ class Synchronizer:
         pool_path = Path('./pool')
         config_path = Path('./config')
         if not os.path.exists(pool_path):
-            os.mkdir(pool_path)
+            os.makedirs(pool_path)
         if not os.path.exists(config_path):
             os.mkdir(config_path)
         if not os.path.exists(config_path / 'roadside.txt'):
