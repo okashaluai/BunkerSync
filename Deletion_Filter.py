@@ -6,9 +6,8 @@ class deletion_filter(Sync_Filter):
         super().__init__("Deletion filter")
     
     def apply_filter(self, path_to_filter):
-
         print(self._filter_name + ":")
-        with open("./config/roadside.txt", "r") as roadside:
+        with open("./sync_config/roadside.txt", "r") as roadside:
             targets = roadside.readlines()
             for target in targets:
                 full_path = path_to_filter/(target.replace('\n', ''))
