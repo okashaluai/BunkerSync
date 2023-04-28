@@ -1,11 +1,12 @@
 from Sync_Filter import Sync_Filter
 import os
+import shutil
 class deletion_filter(Sync_Filter):
     def __init__(self):
         super().__init__("Deletion filter")
     
     def apply_filter(self, path_to_filter):
-        print(os.getcwd())
+
         print(self._filter_name + ":")
         with open("./config/roadside.txt", "r") as roadside:
             targets = roadside.readlines()
@@ -16,7 +17,7 @@ class deletion_filter(Sync_Filter):
                         os.remove(full_path)
                         print(full_path, "was deleted!")
                     elif os.path.isdir(full_path):
-                        os.rmdir(full_path)
+                        shutil.rmtree(full_path, ignore_errors=False, onerror=None)
                         print(full_path , "was deleted!")
                 else:
                     print(full_path , "does not exist.")
