@@ -3,19 +3,51 @@ import os
 import subprocess
 import pathlib
 import numpy
-import shutil, stat, errno
-
+from distutils.dir_util import copy_tree
+from utils import *
 class Sync_Pool:
 
     def __init__(self, path):
         self._pool_path = path
+        self._dst_pool_path = path/'dst'
+        self._src_pool_path = path/'src'        
+        self.clean_pool()
+
         pass
     
-    def filter_pool(self, filter : Sync_Filter):
-        filter.apply_filter(self._pool_path) # todo
+    def filter_dst_pool(self, filter : Sync_Filter):
+        filter.apply_filter(self._dst_pool_path) 
+        pass
+    def filter_src_pool(self, filter : Sync_Filter):
+        filter.apply_filter(self._src_pool_path) 
+        pass
+    
+    
+    def clone_src_dst(self, src_repo_url, dst_repo_url, branch_name):
+        if branch_exists(dst_repo_url, branch_name):
+            #clone branch of repositories src,dst -> pool
+            subprocess.run(['git', 'clone', '--branch', branch_name, dst_repo_url, self._dst_pool_path], shell=True)
+            subprocess.run(['git', 'clone', '--branch', branch_name, src_repo_url, self._src_pool_path], shell=True)
+
+            # copy subdirectory src -> dst
+            from_directory = str(self._src_pool_path)
+            to_directory = str(self._dst_pool_path)
+            rm_dir(self._src_pool_path/'.git')
+            copy_tree(from_directory, to_directory)
+
+            #subprocess.run(['git', '-C', self._dst_pool_path, 'remote', 'set-url', 'origin', dst_repo_url], shell=True)
+            
+        else:
+            pass
         pass
 
+    def merge_to_dst(self, src_repo_url):
+        subprocess.run(['git', '-C',self._dst_pool_path, 'add', '.'], shell=True)
+        subprocess.run(['git', '-C', self._dst_pool_path, 'commit', '-m', 'Merge from: ' + src_repo_url ], shell=True)
+        subprocess.run(['git', '-C',self._dst_pool_path, 'push' , 'origin'], shell=True)
+        pass
 
+    
     def clone_from_source(self, branch, source_repo_url):
         subprocess.run(['git', 'clone', '--branch', branch, source_repo_url, self._pool_path], shell=True)
         subprocess.run(['git', '-C', self._pool_path,  'checkout', '--orphan', branch], shell=True)
@@ -25,7 +57,13 @@ class Sync_Pool:
 
         temp_branch_name = 'temp_branch' + '_'+ random_id
 
-
+        # git clone dst 
+        # checkout -b temp 
+        # \cp -r src dst 
+        # filtering the temp
+        # git add commit push 
+        # firefox dst url
+        
 
         subprocess.run(['git', '-C', self._pool_path, 'remote', 'add', 'target', target_repo_url], shell=True)
         # subprocess.run(['git', '-C', self._pool_path, 'pull', 'target', branch, '--allow-unrelated-histories' ], shell=True)
@@ -39,26 +77,8 @@ class Sync_Pool:
 
 
     def clean_pool(self): 
-        def onerror(func, path, exc_info):
-            """
-            Error handler for ``shutil.rmtree``.
-
-            If the error is due to an access error (read only file)
-            it attempts to add write permission and then retries.
-
-            If the error is for another reason it re-raises the error.
-            
-            Usage : ``shutil.rmtree(path, onerror=onerror)``
-            """
-            import stat
-            # Is the error an access error?
-            if not os.access(path, os.W_OK):
-                os.chmod(path, stat.S_IWUSR)
-                func(path)
-            else:
-                raise
-
-        if os.path.exists(self._pool_path):
-            print('Cleaning pool...')
-            shutil.rmtree(self._pool_path, ignore_errors=False, onerror=onerror )
+        print('Cleaning pool...')
+        rm_dir(self._pool_path)
         pass
+
+
