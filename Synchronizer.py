@@ -17,6 +17,7 @@ class Synchronizer:
 
     def run(self, src_repo_url, dst_repo_url, branch_name):
         self._sync_pool.clone_src_dst(src_repo_url, dst_repo_url, branch_name)
+        self._sync_pool.local_merge()
         filter = deletion_filter()
         self._sync_pool.filter_dst_pool(filter)
         self._sync_pool.merge_to_dst(src_repo_url)
