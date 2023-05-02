@@ -1,6 +1,7 @@
 from Sync_Filter import Sync_Filter
 import os
-import shutil
+from utils import rm_dir
+
 class deletion_filter(Sync_Filter):
     def __init__(self):
         super().__init__("Deletion filter")
@@ -16,7 +17,7 @@ class deletion_filter(Sync_Filter):
                         os.remove(full_path)
                         print(full_path, "was deleted!")
                     elif os.path.isdir(full_path):
-                        shutil.rmtree(full_path, ignore_errors=False, onerror=None)
+                        rm_dir(full_path)
                         print(full_path , "was deleted!")
                 else:
                     print(full_path , "does not exist.")
