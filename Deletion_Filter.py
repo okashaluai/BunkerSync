@@ -8,6 +8,11 @@ class deletion_filter(Sync_Filter):
     
     
     def apply_filter(self, path_to_filter):
+        """_summary_
+
+        Args:
+            path_to_filter (_type_): _description_
+        """
         print(self._filter_name + ":")
         with open("./sync_config/roadside.txt", "r") as roadside:
             targets = roadside.readlines()

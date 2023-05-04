@@ -15,27 +15,45 @@ class Sync_Pool:
         pass
     
     def filter_dst_pool(self, filter : Sync_Filter):
+        """_summary_
+
+        Args:
+            filter (Sync_Filter): _description_
+        """
         filter.apply_filter(self._dst_pool_path) 
         pass
 
     def filter_src_pool(self, filter : Sync_Filter):
+        """_summary_
+
+        Args:
+            filter (Sync_Filter): _description_
+        """
         filter.apply_filter(self._src_pool_path) 
         pass
     
 
-    def include_src_repo_info(self): #must test
-        dot_git_dir_path = str(self._src_temp_path / '.git')
-        info_dst_path = str(self._src_pool_path)
+    def include_src_repo_info(self): 
+        """_summary_
+        """
+        dot_git_dir_path = str(self._src_temp_path )
+        info_dst_path = str(self._src_pool_path/ '.git')
+        print('include from ' + dot_git_dir_path +' to ' + info_dst_path )
         utils.move_dir(dot_git_dir_path, info_dst_path)
         pass
 
-    def exclude_src_repo_info(self): #must test
+    def exclude_src_repo_info(self): 
+        """_summary_
+        """
         dot_git_dir_path = str(self._src_pool_path / '.git')
         info_dst_path = str(self._src_temp_path)
+        print('exclude from ' + dot_git_dir_path +' to ' + info_dst_path )
         utils.move_dir(dot_git_dir_path, info_dst_path)
         pass
 
-    def include_dst_repo_info(self): #must test
+    def include_dst_repo_info(self): 
+        """_summary_
+        """
         dot_git_dir_path = str(self._dst_temp_path)
         info_dst_path = str(self._dst_pool_path / '.git')
         print('include from ' + dot_git_dir_path +' to ' + info_dst_path )
@@ -43,29 +61,43 @@ class Sync_Pool:
         utils.move_dir(dot_git_dir_path, info_dst_path)
         pass
 
-    def exclude_dst_repo_info(self): #must test
+    def exclude_dst_repo_info(self): 
+        """_summary_
+        """
         dot_git_dir_path = str(self._dst_pool_path / '.git' )
-
         info_dst_path = str(self._dst_temp_path )
-
         print('exclude from ' + dot_git_dir_path +' to ' + info_dst_path )
         utils.move_dir(dot_git_dir_path, info_dst_path)
         pass
     
     
     def clone_src(self, src_repo_url):
+        """_summary_
+
+        Args:
+            src_repo_url (_type_): _description_
+        """
         subprocess.run(['git', 'clone',  src_repo_url, self._src_pool_path], shell=True)
         pass
 
     def clone_dst(self, dst_repo_url):
+        """_summary_
+
+        Args:
+            dst_repo_url (_type_): _description_
+        """
         subprocess.run(['git', 'clone',  dst_repo_url, self._dst_pool_path], shell=True)
         pass
 
-
-    
-
     
     def clone_src_dst(self, src_repo_url, dst_repo_url, branch_name):
+        """_summary_
+
+        Args:
+            src_repo_url (_type_): _description_
+            dst_repo_url (_type_): _description_
+            branch_name (_type_): _description_
+        """
         if utils.branch_exists(dst_repo_url, branch_name):
             print('Branch: "'+branch_name+'" exists in destination repository.\n')
             #clone branch of repositories src,dst -> pool
@@ -80,13 +112,13 @@ class Sync_Pool:
             self.push_branch(self._dst_pool_path, branch_name)
     
     def local_merge(self):
+        """_summary_
+        """
         # copy subdirectory src -> dst
         from_directory = str(self._src_pool_path)
         to_directory = str(self._dst_pool_path)
         utils.rm_dir(self._src_pool_path/'.git')  # to be replaced with the include and exclude functionality 
         copy_tree(from_directory, to_directory) # to be replaced with the include and exclude functionality 
-
-        #subprocess.run(['git', '-C', self._dst_pool_path, 'remote', 'set-url', 'origin', dst_repo_url], shell=True)
 
     def merge_to_dst(self): # to delete and use push_to_dst instead
         subprocess.run(['git', '-C',self._dst_pool_path, 'add', '.'], shell=True)
@@ -111,6 +143,14 @@ class Sync_Pool:
         pass
 
     def git_new_branches(self, src_repo_url): # make it more efficient 
+        """_summary_
+
+        Args:
+            src_repo_url (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         new_branches = []
         res = subprocess.check_output(['git', '-C', self._dst_pool_path, 'ls-remote'], shell=True)
         a = "refs/heads/"
@@ -123,12 +163,18 @@ class Sync_Pool:
     
 
     def push_branch(self, local_repo, branch_name):
+        """_summary_
+
+        Args:
+            local_repo (_type_): _description_
+            branch_name (_type_): _description_
+        """
         subprocess.run(['git', '-C', local_repo,'checkout', '-b', branch_name], shell=True)
         subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=True)
         pass
     
 
-    def pull_new_branches(self, src_repo_url):  # bug here. critical segment
+    def pull_new_branches(self, src_repo_url):  
         new_branches = self.git_new_branches(src_repo_url)
         for new_branch in new_branches:
             self.push_branch(self._src_pool_path, new_branch)
@@ -141,6 +187,10 @@ class Sync_Pool:
 
 
     def clean_pool(self): 
+        """
+        Function that clean the temporary files and directories of the pool.
+        """
+
         print('Cleaning pool...')
         utils.rm_dir(self._pool_path)
         pass

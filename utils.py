@@ -26,15 +26,29 @@ def onerror(func, path, exc_info):
         raise
 
 def rm_dir(path):
+    """_summary_
+
+    Args:
+        path (_type_): _description_
+    """
     if os.path.exists(path):
         shutil.rmtree(path, ignore_errors=False, onerror=onerror )
     pass
 
-def branch_browse(url):
-    webUrl = urllib.request.urlopen(url)  
+# def branch_browse(url):
+#     webUrl = urllib.request.urlopen(url)  
 
 
 def branch_exists(remote_repo_url, branch_name):
+    """_summary_
+
+    Args:
+        remote_repo_url (_type_): _description_
+        branch_name (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     branches  = subprocess.check_output(['git', 'ls-remote' , remote_repo_url,  branch_name ], shell=True)
     wc_l = len(re.findall('refs/heads/'+branch_name+'$', branches.decode('utf-8')))
     if wc_l:
@@ -42,6 +56,14 @@ def branch_exists(remote_repo_url, branch_name):
     else: return False
 
 def find_last_slash(str):
+    """_summary_
+
+    Args:
+        str (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     res = -1
     for i in range(len(str)):
         if str[i] == '/':
@@ -49,6 +71,14 @@ def find_last_slash(str):
     return res
 
 def parse_branch_name(full_ref):
+    """_summary_
+
+    Args:
+        full_ref (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     index = find_last_slash(full_ref)
     branch_name = ""
     if index > -1:
@@ -57,11 +87,23 @@ def parse_branch_name(full_ref):
 
 
 def copy_dir(from_dir, to_dir):
+    """_summary_
+
+    Args:
+        from_dir (_type_): _description_
+        to_dir (_type_): _description_
+    """
     shutil.copytree(src=from_dir, dst=to_dir, dirs_exist_ok=True)
     pass
 
 
 def move_dir(src_dir, dst_dir):
+    """_summary_
+
+    Args:
+        src_dir (_type_): _description_
+        dst_dir (_type_): _description_
+    """
     shutil.copytree(src_dir, dst_dir)
     if os.path.exists(src_dir):
         shutil.rmtree(src_dir, ignore_errors=False, onerror=onerror )
@@ -73,6 +115,11 @@ def move_dir(src_dir, dst_dir):
 
 
 def push_to_remote(local_repo_path):
+    """_summary_
+
+    Args:
+        local_repo_path (_type_): _description_
+    """
     subprocess.run(['git', '-C',local_repo_path, 'add', '.'], shell=True)
     subprocess.run(['git', '-C', local_repo_path, 'commit', '-m', 'Merge from: internal repo' ], shell=True)
     subprocess.run(['git', '-C',local_repo_path, 'push' , 'origin'], shell=True)

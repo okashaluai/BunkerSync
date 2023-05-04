@@ -16,6 +16,13 @@ class Synchronizer:
         pass
     
     def sync_internal_external(self, src_repo_url, dst_repo_url, branch_name):
+        """_summary_
+
+        Args:
+            src_repo_url (_type_): _description_
+            dst_repo_url (_type_): _description_
+            branch_name (_type_): _description_
+        """
         self._sync_pool.clone_src_dst(src_repo_url, dst_repo_url, branch_name)
         self._sync_pool.local_merge()
         filter = deletion_filter()
@@ -26,6 +33,12 @@ class Synchronizer:
         pass
 
     def sync_external_internal(self, internal_repo_url, external_repo_url):
+        """_summary_
+
+        Args:
+            internal_repo_url (_type_): _description_
+            external_repo_url (_type_): _description_
+        """
         self._sync_pool.clone_src(internal_repo_url)
         self._sync_pool.clone_dst(external_repo_url)
         self._sync_pool.pull_new_branches(internal_repo_url)
@@ -34,6 +47,13 @@ class Synchronizer:
 
 
     def run(self, src_repo_url, dst_repo_url, branch_name):
+        """_summary_
+
+        Args:
+            src_repo_url (_type_): _description_
+            dst_repo_url (_type_): _description_
+            branch_name (_type_): _description_
+        """
         # self.sync_internal_external(src_repo_url, dst_repo_url, branch_name)
         self.sync_external_internal(src_repo_url, dst_repo_url)
     
