@@ -16,16 +16,25 @@ class Synchronizer:
         pass
     
     def sync_internal_external(self, src_repo_url, dst_repo_url, branch_name):
-        """_summary_
+        """Synchronizes changes made to a source repository with a destination repository.
+           Supports filtering mechanism by passing a filter object to the sync_pool object.
 
         Args:
-            src_repo_url (_type_): _description_
-            dst_repo_url (_type_): _description_
-            branch_name (_type_): _description_
+            src_repo_url (str): The URL of the source repository.
+            dst_repo_url (str): The URL of the destination repository.
+            branch_name (str): The name of the branch to synchronize.
+
         """
+
+        ###################To Customize #################
+        filter_map_path = "./sync_config/roadside.txt" 
+        if not(os.path.isfile(filter_map_path)):
+            raise Exception("Filtering map file roadside.txt does not exist in the local internal repository!")
+        #################################################
+
         self._sync_pool.clone_src_dst(src_repo_url, dst_repo_url, branch_name)
         self._sync_pool.local_merge()
-        filter = deletion_filter()
+        filter = deletion_filter(filter_map_path)
         self._sync_pool.filter_src_pool(filter)
         self._sync_pool.filter_dst_pool(filter)
         self._sync_pool.merge_to_dst(src_repo_url)
@@ -46,15 +55,15 @@ class Synchronizer:
         pass
 
 
-    def run(self, src_repo_url, dst_repo_url, branch_name):
-        """_summary_
+    # def run(self, src_repo_url, dst_repo_url, branch_name):
+    #     """_summary_
 
-        Args:
-            src_repo_url (_type_): _description_
-            dst_repo_url (_type_): _description_
-            branch_name (_type_): _description_
-        """
-        # self.sync_internal_external(src_repo_url, dst_repo_url, branch_name)
-        self.sync_external_internal(src_repo_url, dst_repo_url)
+    #     Args:
+    #         src_repo_url (_type_): _description_
+    #         dst_repo_url (_type_): _description_
+    #         branch_name (_type_): _description_
+    #     """
+    #     # self.sync_internal_external(src_repo_url, dst_repo_url, branch_name)
+    #     self.sync_external_internal(src_repo_url, dst_repo_url)
     
     
