@@ -10,4 +10,4 @@ If you have any issues or suggestions for BunkerSync, feel free to open an issue
 
 ## License
 
-BunkerSync is released under the MIT License. See the [LICENSE](https://github.com/okashaluai/BunkerSync/blob/main/LICENSE) file for details.
+BunkerSync is released under the Apache License. See the [LICENSE](https://github.com/okashaluai/BunkerSync/blob/main/LICENSE) file for details.
