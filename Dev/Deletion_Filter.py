@@ -3,9 +3,9 @@ import os
 from utils import rm_dir
 
 class deletion_filter(Sync_Filter):
-    def __init__(self):
+    def __init__(self, filter_map_path):
         super().__init__("Deletion filter")
-    
+        self._filter_map_path = filter_map_path
     
     def apply_filter(self, path_to_filter):
         """_summary_
@@ -14,7 +14,8 @@ class deletion_filter(Sync_Filter):
             path_to_filter (_type_): _description_
         """
         print(self._filter_name + ":")
-        with open("./sync_config/roadside.txt", "r") as roadside:
+        # with open("./sync_config/roadside.txt", "r") as roadside:
+        with open(self.filter_map_path, "r") as roadside:
             targets = roadside.readlines()
             for target in targets:
                 full_path = path_to_filter/(target.replace('\n', ''))
