@@ -3,18 +3,7 @@ import sys
 import utils
 
 def main(args):
-    logo = '''
-    .-.   .-.  .--.  .--. .--. .-..-. .--.  
-    |  `.'  | / {} \ | {} |/ {} \| ||  `| |   
-    | |\ /| |/  /\  \|  __|\  /\  /| || |\ |  
-    | | V | || |  | || |__ | |  | || || | \ \ 
-    |_|   |_|`-'  `-'`-'  `-'  `-'`-'`-'  `-'
-
-    '''
-
-    print(logo)
-
-           
+    print_logo()
     if (len(args)) == 3:
         src_repo_url = args[0]
         dst_repo_url = args[1] 
@@ -29,7 +18,22 @@ def main(args):
 
     # utils.move_dir('./temp/.git', './dst')
     input('Press any key to exit.')
-     
+
+def print_logo():
+    logo = '''
+     *-+-+-+-+-+-+-+-+-+-+-+*
+     |         .--.         |
+     |        / {} \        |
+     |_______/  /\  \_______|
+     |#######| |  | |#######|
+     |#######`-'++'-´#######|
+     *-+-+-+BunkerSync+-+-+-*
+    '''
+
+    print(logo)
+
+
+
 if __name__ == "__main__":
     main(sys.argv)
 
