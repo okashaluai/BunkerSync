@@ -15,26 +15,26 @@ class Sync_Pool:
         pass
     
     def filter_dst_pool(self, filter : Sync_Filter):
-        """_summary_
+        """This function applies a Sync_Filter object on the destination pool path.
 
         Args:
-            filter (Sync_Filter): _description_
+            filter (Sync_Filter): An object of the Sync_Filter class that contains the filter rules to be applied on the destination pool.
         """
         filter.apply_filter(self._dst_pool_path) 
         pass
 
     def filter_src_pool(self, filter : Sync_Filter):
-        """_summary_
+        """This function applies a Sync_Filter object on the source pool path.
 
         Args:
-            filter (Sync_Filter): _description_
+            filter (Sync_Filter): An object of the Sync_Filter class that contains the filter rules to be applied on the source pool.
         """
         filter.apply_filter(self._src_pool_path) 
         pass
     
 
     def include_src_repo_info(self): 
-        """_summary_
+        """This function includes the repository information from the source temporary directory to the source pool directory.
         """
         dot_git_dir_path = str(self._src_temp_path )
         info_dst_path = str(self._src_pool_path/ '.git')
@@ -43,8 +43,8 @@ class Sync_Pool:
         pass
 
     def exclude_src_repo_info(self): 
-        """_summary_
-        """
+        """This function excludes the repository information from the source pool directory and moves it to the source temporary directory.
+        """        
         dot_git_dir_path = str(self._src_pool_path / '.git')
         info_dst_path = str(self._src_temp_path)
         print('exclude from ' + dot_git_dir_path +' to ' + info_dst_path )
@@ -52,7 +52,7 @@ class Sync_Pool:
         pass
 
     def include_dst_repo_info(self): 
-        """_summary_
+        """This function includes the repository information from the destination temporary directory to the destination pool directory.
         """
         dot_git_dir_path = str(self._dst_temp_path)
         info_dst_path = str(self._dst_pool_path / '.git')
@@ -62,7 +62,7 @@ class Sync_Pool:
         pass
 
     def exclude_dst_repo_info(self): 
-        """_summary_
+        """This function excludes the repository information from the destination pool directory and moves it to the destination temporary directory.
         """
         dot_git_dir_path = str(self._dst_pool_path / '.git' )
         info_dst_path = str(self._dst_temp_path )
@@ -72,19 +72,19 @@ class Sync_Pool:
     
     
     def clone_src(self, src_repo_url):
-        """_summary_
+        """This function clones the source repository from the given URL and saves it to the source pool directory.
 
         Args:
-            src_repo_url (_type_): _description_
+            src_repo_url (str): The URL of the source repository.
         """
         subprocess.run(['git', 'clone',  src_repo_url, self._src_pool_path], shell=True)
         pass
 
     def clone_dst(self, dst_repo_url):
-        """_summary_
+        """This function clones the destination repository from the given URL and saves it to the destination pool directory.
 
         Args:
-            dst_repo_url (_type_): _description_
+            dst_repo_url (str): The URL of the destination repository.
         """
         subprocess.run(['git', 'clone',  dst_repo_url, self._dst_pool_path], shell=True)
         pass
@@ -112,7 +112,8 @@ class Sync_Pool:
             self.push_branch(self._dst_pool_path, branch_name)
     
     def local_merge(self):
-        """_summary_
+        """This function performs a local merge of the changes from the source repository to the destination repository. 
+           It copies the subdirectory from the source pool to the destination pool directory.
         """
         # copy subdirectory src -> dst
         from_directory = str(self._src_pool_path)
@@ -128,7 +129,7 @@ class Sync_Pool:
 
     def push_to_src(self):
         """ 
-        Function to push (add ., commit and push) changes in local src repository to remote src repository using push_to_remote function from utils class.
+        This function pushes (add ., commit and push) changes in local src repository to remote src repository using push_to_remote function from utils class.
         """
         
         utils.push_to_remote(self._src_pool_path)
@@ -136,7 +137,7 @@ class Sync_Pool:
 
     def push_to_dst(self):
         """ 
-        Function to push (add ., commit and push) changes in local dst repository to remote dst repository using push_to_remote function from utils class.
+        This function pushes (add ., commit and push) changes in local dst repository to remote dst repository using push_to_remote function from utils class.
         """
         
         utils.push_to_remote(self._dst_pool_path)
@@ -163,18 +164,19 @@ class Sync_Pool:
     
 
     def push_branch(self, local_repo, branch_name):
-        """_summary_
+        """This function creates and pushes a new branch from the local repository to the remote repository.
 
         Args:
-            local_repo (_type_): _description_
-            branch_name (_type_): _description_
+            local_repo (str): The local repository to push the branch from.
+            branch_name (str): The name of the branch to create and push.
         """
         subprocess.run(['git', '-C', local_repo,'checkout', '-b', branch_name], shell=True)
         subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=True)
         pass
     
 
-    def pull_new_branches(self, src_repo_url):  
+    def pull_new_branches(self, src_repo_url): 
+         
         new_branches = self.git_new_branches(src_repo_url)
         for new_branch in new_branches:
             self.push_branch(self._src_pool_path, new_branch)
@@ -188,7 +190,7 @@ class Sync_Pool:
 
     def clean_pool(self): 
         """
-        Function that clean the temporary files and directories of the pool.
+        This function cleans the temporary files and directories of the pool.
         """
 
         print('Cleaning pool...')
