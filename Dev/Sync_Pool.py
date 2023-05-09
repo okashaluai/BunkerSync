@@ -129,8 +129,10 @@ class Sync_Pool:
         # copy subdirectory src -> dst
         from_directory = str(self._src_pool_path)
         to_directory = str(self._dst_pool_path)
-        utils.rm_dir(self._src_pool_path/'.git')  # to be replaced with the include and exclude functionality 
-        copy_tree(from_directory, to_directory) # to be replaced with the include and exclude functionality 
+        self.exclude_src_repo_info()
+        utils.copy_dir(from_directory, to_directory)
+        # utils.rm_dir(self._src_pool_path/'.git')  # to be replaced with the include and exclude functionality 
+        # copy_tree(from_directory, to_directory) # to be replaced with the include and exclude functionality 
 
     def merge_to_dst(self): # to delete and use push_to_dst instead
         subprocess.run(['git', '-C',self._dst_pool_path, 'add', '.'], shell=False)
@@ -183,6 +185,8 @@ class Sync_Pool:
             local_repo (str): The local repository to push the branch from.
             branch_name (str): The name of the branch to create and push.
         """
+        main_branch = 'main'
+        subprocess.run(['git', '-C', local_repo,'checkout', main_branch], shell=False)
         subprocess.run(['git', '-C', local_repo,'checkout', '-b', branch_name], shell=False)
         subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=False)
         pass
@@ -190,7 +194,7 @@ class Sync_Pool:
 
     def pull_new_branches(self, src_repo_url): 
          
-        new_branches = self.git_new_branches(src_repo_url)
+        new_branches = self.git_new_branches(src_repo_url) # add prefix.
         for new_branch in new_branches:
             self.push_branch(self._src_pool_path, new_branch)
             #copy content here to current branch.

@@ -13,7 +13,7 @@ class Synchronizer:
         self._sync_pool = Sync_Pool(pool_path)
         pass
     
-    def sync_internal_external(self, src_repo_url, dst_repo_url, branch_name):
+    def sync_internal_external(self, src_repo_url, dst_repo_url, branch_name, filter_map_path = "./sync_config/roadside.txt"):
         """Synchronizes changes made to a source repository with a destination repository.
            Supports filtering mechanism by passing a filter object to the sync_pool object.
 
@@ -25,7 +25,6 @@ class Synchronizer:
         """
 
         ###################To Customize #################
-        filter_map_path = "./sync_config/roadside.txt" 
         if not(os.path.isfile(filter_map_path)):
             raise Exception("Filtering map file roadside.txt does not exist in the local internal repository!")
         #################################################
@@ -50,7 +49,7 @@ class Synchronizer:
         self._sync_pool.clone_src(internal_repo_url)
         self._sync_pool.clone_dst(external_repo_url)
         self._sync_pool.pull_new_branches(internal_repo_url)
-        # self._sync_pool.clean_pool()
+        self._sync_pool.clean_pool()
         pass
 
 
