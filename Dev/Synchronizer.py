@@ -6,8 +6,6 @@ class Synchronizer:
     def __init__(self):
         pool_path = Path('./pool')
         config_path = Path('./sync_config')
-        if not os.path.exists(pool_path):
-            os.makedirs(pool_path)
         if not os.path.exists(config_path):
             os.mkdir(config_path)
         if not os.path.exists(config_path / 'roadside.txt'):
@@ -48,10 +46,11 @@ class Synchronizer:
             internal_repo_url (_type_): _description_
             external_repo_url (_type_): _description_
         """
+        
         self._sync_pool.clone_src(internal_repo_url)
         self._sync_pool.clone_dst(external_repo_url)
         self._sync_pool.pull_new_branches(internal_repo_url)
-        self._sync_pool.clean_pool()
+        # self._sync_pool.clean_pool()
         pass
 
 

@@ -54,7 +54,7 @@ def branch_exists(remote_repo_url, branch_name):
     Returns:
         _type_: _description_
     """
-    branches  = subprocess.check_output(['git', 'ls-remote' , remote_repo_url,  branch_name ], shell=True)
+    branches  = subprocess.run(['git', 'ls-remote' , remote_repo_url ],shell=False, capture_output=True).stdout
     wc_l = len(re.findall('refs/heads/'+branch_name+'$', branches.decode('utf-8')))
     if wc_l:
         return True
@@ -127,8 +127,8 @@ def push_to_remote(local_repo_path):
         CalledProcessError: If a Git command fails.
 
     """
-    subprocess.run(['git', '-C',local_repo_path, 'add', '.'], shell=True)
-    subprocess.run(['git', '-C', local_repo_path, 'commit', '-m', 'Merge from: internal repo' ], shell=True)
-    subprocess.run(['git', '-C',local_repo_path, 'push' , 'origin'], shell=True)
+    subprocess.run(['git', '-C',local_repo_path, 'add', '.'], shell=False)
+    subprocess.run(['git', '-C', local_repo_path, 'commit', '-m', 'Merge from: internal repo' ], shell=False)
+    subprocess.run(['git', '-C',local_repo_path, 'push' , 'origin'], shell=False)
     pass
 
