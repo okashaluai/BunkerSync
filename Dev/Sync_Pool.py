@@ -119,7 +119,8 @@ class Sync_Pool:
         else:
             print('Branch: "'+branch_name+'" does not exist in destination repository.\n')
             self.clone_dst(dst_repo_url)
-            subprocess.run(['git', 'clone', '--branch', branch_name, src_repo_url, self._src_pool_path], shell=False)
+            self.clone_src_branch(src_repo_url, branch_name)
+            # subprocess.run(['git', 'clone', '--branch', branch_name, src_repo_url, self._src_pool_path], shell=False)
             self.push_branch(self._dst_pool_path, branch_name)
     
     def local_merge(self):
@@ -129,16 +130,10 @@ class Sync_Pool:
         # copy subdirectory src -> dst
         from_directory = str(self._src_pool_path)
         to_directory = str(self._dst_pool_path)
-        self.exclude_src_repo_info()
-        utils.copy_dir(from_directory, to_directory)
         # utils.rm_dir(self._src_pool_path/'.git')  # to be replaced with the include and exclude functionality 
         # copy_tree(from_directory, to_directory) # to be replaced with the include and exclude functionality 
-
-    def merge_to_dst(self): # to delete and use push_to_dst instead
-        subprocess.run(['git', '-C',self._dst_pool_path, 'add', '.'], shell=False)
-        subprocess.run(['git', '-C', self._dst_pool_path, 'commit', '-m', 'Merge from: internal repo' ], shell=False)
-        subprocess.run(['git', '-C',self._dst_pool_path, 'push' , 'origin'], shell=False)
-        pass
+        self.exclude_src_repo_info()
+        utils.copy_dir(from_directory, to_directory)
 
     def push_to_src(self):
         """ 
@@ -156,7 +151,7 @@ class Sync_Pool:
         utils.push_to_remote(self._dst_pool_path)
         pass
 
-    def git_new_branches(self, src_repo_url): # make it more efficient 
+    def git_new_branches(self, src_repo_url, prefix): # make it more efficient 
         """_summary_
 
         Args:
@@ -169,12 +164,12 @@ class Sync_Pool:
         
         # res = subprocess.check_output(['git', '-C', self._dst_pool_path, 'ls-remote'], shell=False)
         res = subprocess.run(['git', '-C', self._dst_pool_path, 'ls-remote'], shell=False, capture_output=True).stdout
-        a = "refs/heads/"
+        a = "refs/heads/"+prefix
         b = "\n"
         branches = re.findall(rf'{a}(.*?){b}', res.decode('utf-8'))
         for branch_name in branches:
-            if not(utils.branch_exists(src_repo_url, branch_name)) and len(branch_name) > 0:
-                new_branches.append(branch_name)
+            if not(utils.branch_exists(src_repo_url, prefix + branch_name)) and len(prefix + branch_name) > 0:
+                new_branches.append(prefix +branch_name)
         return new_branches
     
 
@@ -192,9 +187,9 @@ class Sync_Pool:
         pass
     
 
-    def pull_new_branches(self, src_repo_url): 
+    def pull_new_branches(self, src_repo_url, prefix): 
          
-        new_branches = self.git_new_branches(src_repo_url) # add prefix.
+        new_branches = self.git_new_branches(src_repo_url, prefix) # add prefix.
         for new_branch in new_branches:
             self.push_branch(self._src_pool_path, new_branch)
             #copy content here to current branch.
