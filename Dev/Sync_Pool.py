@@ -10,11 +10,6 @@ class Sync_Pool:
         self._pool_path = path
         self._dst_pool_path = path/'dst'
         self._src_pool_path = path/'src'
-        # if not os.path.exists(self._src_pool_path):
-        #     os.mkdir(self._src_pool_path)
-        # if not os.path.exists(self._dst_pool_path):
-        #     os.mkdir(self._dst_pool_path)
-
         self._src_temp_path = path / 'src_temp'
         self._dst_temp_path = path / 'dst_temp'
         self.clean_pool()
@@ -26,6 +21,8 @@ class Sync_Pool:
         Args:
             filter (Sync_Filter): An object of the Sync_Filter class that contains the filter rules to be applied on the destination pool.
         """
+        if filter is None:
+            return
         filter.apply_filter(self._dst_pool_path) 
         pass
 
@@ -35,6 +32,8 @@ class Sync_Pool:
         Args:
             filter (Sync_Filter): An object of the Sync_Filter class that contains the filter rules to be applied on the source pool.
         """
+        if filter is None:
+            return
         filter.apply_filter(self._src_pool_path) 
         pass
     
