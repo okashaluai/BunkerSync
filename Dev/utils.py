@@ -5,7 +5,7 @@ import urllib.request
 import re
 from distutils import dir_util
 import stat
-
+import tempfile
 
 def onerror(func, path, exc_info):
     """
@@ -132,3 +132,7 @@ def push_to_remote(local_repo_path):
     subprocess.run(['git', '-C',local_repo_path, 'push' , 'origin'], shell=False)
     pass
 
+def get_temp_path():
+    tmp_dir = tempfile.gettempdir()
+    return tmp_dir
+    pass
