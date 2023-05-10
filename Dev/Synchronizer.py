@@ -2,10 +2,12 @@ from Sync_Pool import Sync_Pool
 from Deletion_Filter import deletion_filter
 import os 
 from pathlib import Path
+import utils 
 class Synchronizer:
     def __init__(self):
-        pool_path = Path('./pool')
-        config_path = Path('./sync_config')
+        tmp_dir = Path(utils.get_temp_path()) 
+        pool_path = Path( tmp_dir / 'pool')
+        config_path = Path(tmp_dir / 'sync_config')
         if not os.path.exists(config_path):
             os.mkdir(config_path)
         if not os.path.exists(config_path / 'roadside.txt'):
@@ -13,7 +15,7 @@ class Synchronizer:
         self._sync_pool = Sync_Pool(pool_path)
         pass
     
-    def sync_internal_external(self, src_repo_url, dst_repo_url, branch_name, filter_map_path = "./sync_config/roadside.txt"):
+    def sync_internal_external(self, src_repo_url, dst_repo_url, branch_name, filter_map_path = None):
         """Synchronizes changes made to a source repository with a destination repository.
            Supports filtering mechanism by passing a filter object to the sync_pool object.
 
@@ -29,9 +31,11 @@ class Synchronizer:
             raise Exception("Filtering map file roadside.txt does not exist in the local internal repository!")
         #################################################
 
-        self._sync_pool.clone_src_dst(src_repo_url, dst_repo_url, branch_name)
+        self._sync_pool.clone_src_dst(src_repo_url, dst_repo_url, branch_name )
         self._sync_pool.local_merge()
-        filter = deletion_filter(filter_map_path)
+        filter = None
+        if not (filter_map_path is None):
+            filter = deletion_filter(filter_map_path)
         self._sync_pool.filter_src_pool(filter)
         self._sync_pool.filter_dst_pool(filter)
         self._sync_pool.push_to_dst()
