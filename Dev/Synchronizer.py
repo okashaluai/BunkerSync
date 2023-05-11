@@ -7,11 +7,11 @@ class Synchronizer:
     def __init__(self):
         tmp_dir = Path(utils.get_temp_path()) 
         pool_path = Path( tmp_dir / 'pool')
-        config_path = Path(tmp_dir / 'sync_config')
-        if not os.path.exists(config_path):
-            os.mkdir(config_path)
-        if not os.path.exists(config_path / 'roadside.txt'):
-            open(config_path / 'roadside.txt', "x")
+        # config_path = Path(tmp_dir / 'sync_config')
+        # if not os.path.exists(config_path):
+        #     os.mkdir(config_path)
+        # if not os.path.exists(config_path / 'roadside.txt'):
+        #     open(config_path / 'roadside.txt', "x")
         self._sync_pool = Sync_Pool(pool_path)
         pass
     
@@ -27,8 +27,11 @@ class Synchronizer:
         """
 
         ###################To Customize #################
-        if not(os.path.isfile(filter_map_path)):
-            raise Exception("Filtering map file roadside.txt does not exist in the local internal repository!")
+        if not (filter_map_path is None) and not(os.path.isfile(filter_map_path)): 
+            if not(os.path.isfile(self._sync_pool._dst_pool_path / filter_map_path)):
+                raise Exception("Filtering map file does not exist neither in the given path nor in the local git repository!")
+            else:
+                filter_map_path = self._sync_pool._dst_pool_path / filter_map_path
         #################################################
 
         self._sync_pool.clone_src_dst(src_repo_url, dst_repo_url, branch_name )
