@@ -3,6 +3,7 @@ from Deletion_Filter import deletion_filter
 import os 
 from pathlib import Path
 import utils 
+import config 
 class Synchronizer:
     def __init__(self):
         tmp_dir = Path(utils.get_temp_path()) 
@@ -45,7 +46,7 @@ class Synchronizer:
         self._sync_pool.clean_pool()
         pass
 
-    def sync_external_internal(self, internal_repo_url, external_repo_url, prefix):
+    def sync_external_internal_with_prefix(self, internal_repo_url, external_repo_url, prefix):
         """_summary_
 
         Args:
@@ -55,8 +56,27 @@ class Synchronizer:
         
         self._sync_pool.clone_src(internal_repo_url)
         self._sync_pool.clone_dst(external_repo_url)
-        self._sync_pool.pull_new_branches(internal_repo_url, prefix)
+        self._sync_pool.pull_all_new_branches(internal_repo_url, prefix)
         self._sync_pool.clean_pool()
         pass
+
+    def sync_external_internal_with_branch(self, internal_repo_url, external_repo_url, src_branch_base, dst_branch_name, src_branch_name = config.default_branch):
+        """_summary_
+
+        Args:
+            internal_repo_url (_type_): _description_
+            external_repo_url (_type_): _description_
+        """
+        
+        self._sync_pool.clone_src(internal_repo_url)
+        self._sync_pool.clone_dst(external_repo_url)
+        self._sync_pool.pull_new_branch(
+                                src_repo_url = internal_repo_url, 
+                                src_base_branch = src_branch_base, 
+                                src_branch_name = src_branch_name, 
+                                dst_branch_name = dst_branch_name)
+        self._sync_pool.clean_pool()
+        pass
+ 
     
     

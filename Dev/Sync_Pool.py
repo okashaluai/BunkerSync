@@ -183,10 +183,10 @@ class Sync_Pool:
         subprocess.run(['git', '-C', local_repo,'checkout', '-b', branch_name, base_branch], shell=False)
         subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=False)
         pass
-    
+    def haha(self):
+        pass
 
     def pull_new_branch(self, src_repo_url, src_base_branch, src_branch_name, dst_branch_name):
-        
         if not(utils.branch_exists(branch_name=src_branch_name, remote_repo_url=src_repo_url)):
             self.push_branch(local_repo=self._src_pool_path, base_branch=src_base_branch, branch_name=src_branch_name)
             
@@ -200,9 +200,7 @@ class Sync_Pool:
         self.push_to_src()
         pass
 
-
     def pull_all_new_branches(self, src_repo_url, prefix): 
-         
         new_branches = self.git_new_branches(src_repo_url, prefix) # add prefix.
         for new_branch in new_branches:
             self.push_branch(self._src_pool_path, new_branch)
@@ -212,7 +210,6 @@ class Sync_Pool:
             utils.copy_dir(self._dst_pool_path, self._src_pool_path)
             self.include_dst_repo_info()
             self.push_to_src()
-
         pass
     
     def clean_pool(self): 
