@@ -4,6 +4,7 @@ from distutils.dir_util import copy_tree
 import utils
 import re
 import os
+import config
 class Sync_Pool:
 
     def __init__(self, path):
@@ -170,23 +171,37 @@ class Sync_Pool:
             if not(utils.branch_exists(src_repo_url, prefix + branch_name)) and len(prefix + branch_name) > 0:
                 new_branches.append(prefix +branch_name)
         return new_branches
-    
 
-    def push_branch(self, local_repo, branch_name):
+    def push_branch(self, local_repo, branch_name, base_branch = config.default_branch):
         """This function creates and pushes a new branch from the local repository to the remote repository.
 
         Args:
             local_repo (str): The local repository to push the branch from.
             branch_name (str): The name of the branch to create and push.
         """
-        main_branch = 'main'
-        subprocess.run(['git', '-C', local_repo,'checkout', main_branch], shell=False)
-        subprocess.run(['git', '-C', local_repo,'checkout', '-b', branch_name], shell=False)
+        # subprocess.run(['git', '-C', local_repo,'checkout', base_branch], shell=False)
+        subprocess.run(['git', '-C', local_repo,'checkout', '-b', branch_name, base_branch], shell=False)
         subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=False)
         pass
     
 
-    def pull_new_branches(self, src_repo_url, prefix): 
+    def pull_new_branch(self, src_repo_url, src_base_branch, src_branch_name, dst_branch_name):
+        
+        if not(utils.branch_exists(branch_name=src_branch_name, remote_repo_url=src_repo_url)):
+            self.push_branch(local_repo=self._src_pool_path, base_branch=src_base_branch, branch_name=src_branch_name)
+            
+        #copy content here to current branch.
+        subprocess.run(['git', '-C', self._src_pool_path, 'checkout', src_branch_name], shell=False)
+        subprocess.run(['git', '-C', self._dst_pool_path, 'checkout', dst_branch_name], shell=False)
+
+        self.exclude_dst_repo_info()
+        utils.copy_dir(self._dst_pool_path, self._src_pool_path)
+        self.include_dst_repo_info()
+        self.push_to_src()
+        pass
+
+
+    def pull_all_new_branches(self, src_repo_url, prefix): 
          
         new_branches = self.git_new_branches(src_repo_url, prefix) # add prefix.
         for new_branch in new_branches:
@@ -198,7 +213,8 @@ class Sync_Pool:
             self.include_dst_repo_info()
             self.push_to_src()
 
-
+        pass
+    
     def clean_pool(self): 
         """
         This function cleans the temporary files and directories of the pool.
