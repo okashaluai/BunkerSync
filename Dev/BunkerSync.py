@@ -5,7 +5,6 @@ import argparse
 
 def main():
 	
-    print(get_logo())
     parser = argparse.ArgumentParser(
         description =   'Welcome to BunkerSync tool!')
     
@@ -47,6 +46,7 @@ def main():
                                             )
 
     else:
+        print(get_logo())
         parser.print_help()
 
 
@@ -64,8 +64,9 @@ def get_logo():
                 |#######`-'++'-´#######|
                 *-+-+-+BunkerSync+-+-+-*
                 
-                Author: https://github.com/okashaluai/BunkerSync.git
-                Email: Luaiokasha@gmail.com
+                Author: Luai Okasha
+                E-mail: Luaiokasha@gmail.com
+                Github: https://github.com/okashaluai/BunkerSync.git
     
     '''
 	
