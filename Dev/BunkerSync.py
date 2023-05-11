@@ -16,8 +16,12 @@ def main():
     parser.add_argument('-b', '--branch', default= None, action='store', type = str, help = '(Required when -p is on) Name of internal branch to be published to external repository.')
     parser.add_argument('-@', '--prefix', default= None, action='store', type = str, help = '(Required when -f is on) Prefix of external branches to be pulled to internal repository.')
     parser.add_argument('-fm', '--filter_map', default= None, action='store', type=str, help = 'Path of the filtering map that includes files or folders names to be filtered.')
+    parser.add_argument('-sb', '--src_branch', default = None, type = str, help = '') #todo
+    parser.add_argument('-db', '--dst_branch', default = None, type = str, help = '')#todo
+    parser.add_argument('-bb', '--branch_base', default = None, type = str, help = '')#todo
+    
     args = parser.parse_args()
-
+    
     def check_urls():
         if args.internal is None:
             parser.error('Internal repository url should be specified as the following: --internal=<url> or -i=<url>')
