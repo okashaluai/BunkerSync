@@ -26,13 +26,16 @@ BunkerSync is a Python script that simplifies the process of syncing Git reposit
 
 ## Getting Started
 ## Command-line Arguments
-&emsp; **-p**,&emsp;&emsp; &emsp;&ensp; **--publish** &emsp;&emsp; &emsp;&emsp;&nbsp;       Option to publish a given branch from internal repository to external repository.\
-&emsp; **-f**,&emsp;&emsp; &emsp;&ensp;&nbsp; **--fetch** &emsp;&emsp; &emsp;&emsp;&emsp;&nbsp;         Option to fetch all new branches with a given prefix from external repository to the internal repository.\
-&emsp; **-i**,&emsp;&emsp; &emsp;&ensp;&nbsp; **--internal** &emsp;&emsp; &emsp;&emsp;&nbsp;      Internal repository url.\
-&emsp; **-e**,&emsp;&emsp; &emsp;&ensp; **--external** &emsp;&emsp; &emsp;&emsp;      External repository url.\
-&emsp; **-b**,&emsp;&emsp; &emsp;&ensp; **--branch** &emsp;&emsp; &emsp;&emsp;&ensp;        (Required when -p is on) Name of internal branch to be published to external repository.\
-&emsp; **-@**,&emsp;&emsp; &emsp;&ensp;**--prefix** &emsp;&emsp; &emsp;&emsp;&emsp;        (Required when -f is on) Prefix of external branches to be pulled to internal repository.\
-&emsp; **-fm**,&emsp;&emsp; &emsp; **--filter_map** &emsp;&emsp; &emsp;    Path of the filtering map that includes files or folders names to be filtered.
+&emsp; **-p**,&emsp;&emsp; &emsp;&ensp; **--publish** &emsp;&emsp; &emsp;&emsp;&nbsp;&emsp       Option to publish a given branch from internal repository to external repository.\
+&emsp; **-f**,&emsp;&emsp; &emsp;&ensp;&nbsp; **--fetch** &emsp;&emsp; &emsp;&emsp;&emsp;&nbsp;&emsp         Option to fetch all new branches with a given prefix from external repository to the internal repository.\
+&emsp; **-i**,&emsp;&emsp; &emsp;&ensp;&nbsp; **--internal** &emsp;&emsp; &emsp;&emsp;&nbsp;&emsp      Internal repository url.\
+&emsp; **-e**,&emsp;&emsp; &emsp;&ensp; **--external** &emsp;&emsp; &emsp;&emsp;&emsp      External repository url.\
+&emsp; **-b**,&emsp;&emsp; &emsp;&ensp; **--branch** &emsp;&emsp; &emsp;&emsp;&ensp;&emsp        (Required when -p is on) Name of internal branch to be published to external repository.\
+&emsp; **-@**,&emsp;&emsp; &emsp;&ensp;**--prefix** &emsp;&emsp; &emsp;&emsp;&emsp;&emsp        (Required when -f is on) Prefix of external branches to be pulled to internal repository.\
+&emsp; **-fm**,&emsp;&emsp; &emsp; **--filter_map** &emsp;&emsp; &emsp;                    Path of the filtering map that includes files or folders names to be filtered.\
+&emsp; **-ib**,&emsp;&emsp; &emsp; **--internal_branch** &emsp;&emsp; &emsp;               (Required when -f is on)The name of the branch in the internal repository.\
+&emsp; **-eb**,&emsp;&emsp; &emsp; **--external_branch** &emsp;&emsp; &emsp;               (Required when -f is on) The name of the branch in the external repository.\
+&emsp; **-bb**,&emsp;&emsp; &emsp; **--branch_base** &emsp;&emsp; &emsp; The base branch name to be the base of the new fetched branch.
 
 ## Contributing
 
