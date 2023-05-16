@@ -46,7 +46,7 @@ class Synchronizer:
         self._sync_pool.clean_pool()
         pass
 
-    def sync_external_internal_with_prefix(self, internal_repo_url, external_repo_url, prefix):
+    def sync_external_internal_with_prefix(self, internal_repo_url, external_repo_url, prefix, fetch_base = config.default_branch):
         """_summary_
 
         Args:
@@ -56,7 +56,7 @@ class Synchronizer:
         
         self._sync_pool.clone_src(internal_repo_url)
         self._sync_pool.clone_dst(external_repo_url)
-        self._sync_pool.pull_all_new_branches(internal_repo_url, prefix)
+        self._sync_pool.pull_all_new_branches(internal_repo_url, prefix, fetch_base=fetch_base)
         self._sync_pool.clean_pool()
         pass
 
