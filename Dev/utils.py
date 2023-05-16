@@ -44,7 +44,7 @@ def rm_dir(path):
 #     webUrl = urllib.request.urlopen(url)  
 
 
-def branch_exists(remote_repo_url, branch_name):
+def check_branch_exists(remote_repo_url, branch_name):
     """This function checks if a branch exists in a remote Git repository given its URL and branch name.
 
     Args:
@@ -54,11 +54,23 @@ def branch_exists(remote_repo_url, branch_name):
     Returns:
         _type_: _description_
     """
-    branches  = subprocess.run(['git', 'ls-remote' , remote_repo_url ],shell=False, capture_output=True).stdout
-    wc_l = len(re.findall('refs/heads/'+branch_name+'$', branches.decode('utf-8')))
-    if wc_l:
-        return True
-    else: return False
+
+    try:
+        # Run the git ls-remote command to get the list of remote branches
+        output = subprocess.check_output(['git', 'ls-remote', '--heads', remote_repo_url], universal_newlines=True)
+
+        # Iterate over the output lines and check if the branch exists
+        for line in output.splitlines():
+            _, ref = line.split('\t')
+            if ref.endswith(branch_name):
+                return True
+
+        # If the branch was not found
+        return False
+    except subprocess.CalledProcessError:
+        # Handle any errors that occurred during the git command execution
+        print("Failed to run git command.")
+        return False
 
 # def find_last_slash(str):
 #     """_summary_
@@ -128,7 +140,7 @@ def push_to_remote(local_repo_path):
 
     """
     subprocess.run(['git', '-C',local_repo_path, 'add', '.'], shell=False)
-    subprocess.run(['git', '-C', local_repo_path, 'commit', '-m', 'Merge from: internal repo' ], shell=False)
+    subprocess.run(['git', '-C', local_repo_path, 'commit', '-m', 'A branch merged to this branch successfully!' ], shell=False)
     subprocess.run(['git', '-C',local_repo_path, 'push' , 'origin'], shell=False)
     pass
 
