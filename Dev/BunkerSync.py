@@ -75,9 +75,13 @@ def main():
             elif args.external_branch is None:
                 parser.error(
                     'external_branch argument is required when using -f/--fetch.')
-            elif args.branch_base is None:
-                parser.error(
-                    'branch_base argument is required when using -f/--fetch.')
+            if args.branch_base is None:
+                Synchronizer().sync_external_internal_with_branch(
+                    internal_repo_url=args.internal,
+                    external_repo_url=args.external,
+                    dst_branch_name=args.external_branch,
+                    src_branch_name=args.internal_branch
+                )
             else:
                 Synchronizer().sync_external_internal_with_branch(
                     internal_repo_url=args.internal,
