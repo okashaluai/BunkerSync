@@ -111,7 +111,7 @@ class Sync_Pool:
             dst_repo_url (_type_): _description_
             branch_name (_type_): _description_
         """
-        if utils.branch_exists(dst_repo_url, branch_name):
+        if utils.check_branch_exists(dst_repo_url, branch_name):
             print('Branch: "'+branch_name+'" exists in destination repository.\n')
             #clone branch of repositories src,dst -> pool
             self.clone_src_branch(src_repo_url, branch_name)
@@ -168,7 +168,7 @@ class Sync_Pool:
         b = "\n"
         branches = re.findall(rf'{a}(.*?){b}', res.decode('utf-8'))
         for branch_name in branches:
-            if not(utils.branch_exists(src_repo_url, prefix + branch_name)) and len(prefix + branch_name) > 0:
+            if not(utils.check_branch_exists(src_repo_url, prefix + branch_name)) and len(prefix + branch_name) > 0:
                 new_branches.append(prefix +branch_name)
         return new_branches
 
@@ -179,15 +179,17 @@ class Sync_Pool:
             local_repo (str): The local repository to push the branch from.
             branch_name (str): The name of the branch to create and push.
         """
-        # subprocess.run(['git', '-C', local_repo,'checkout', base_branch], shell=False)
+        
         subprocess.run(['git', '-C', local_repo,'checkout', '-b', branch_name, base_branch], shell=False)
-        subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=False)
-        pass
-    def haha(self):
+        
+        subprocess.run(['git', '-C', local_repo, 'push', '-u', 'origin', branch_name], shell=False)
+        # subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=False)
         pass
 
+
     def pull_new_branch(self, src_repo_url, src_base_branch, src_branch_name, dst_branch_name):
-        if not(utils.branch_exists(branch_name=src_branch_name, remote_repo_url=src_repo_url)):
+        
+        if not(utils.check_branch_exists(branch_name=src_branch_name, remote_repo_url=src_repo_url)):
             self.push_branch(local_repo=self._src_pool_path, base_branch=src_base_branch, branch_name=src_branch_name)
             
         #copy content here to current branch.
@@ -197,13 +199,15 @@ class Sync_Pool:
         self.exclude_dst_repo_info()
         utils.copy_dir(self._dst_pool_path, self._src_pool_path)
         self.include_dst_repo_info()
+        # subprocess.run(['git', '-C', self._src_pool_path, 'push', '-u', 'origin', src_branch_name], shell=False)
+
         self.push_to_src()
         pass
 
-    def pull_all_new_branches(self, src_repo_url, prefix): 
+    def pull_all_new_branches(self, src_repo_url, prefix, fetch_base): 
         new_branches = self.git_new_branches(src_repo_url, prefix) # add prefix.
         for new_branch in new_branches:
-            self.push_branch(self._src_pool_path, new_branch)
+            self.push_branch(self._src_pool_path, new_branch, fetch_base)
             #copy content here to current branch.
             subprocess.run(['git', '-C', self._dst_pool_path, 'checkout', new_branch], shell=False)
             self.exclude_dst_repo_info()
