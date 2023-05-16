@@ -186,13 +186,14 @@ class Sync_Pool:
     def haha(self):
         pass
 
-    def pull_new_branch(self, src_repo_url, src_base_branch, src_branch_name, dst_branch_name):
-        if not(utils.branch_exists(branch_name=src_branch_name, remote_repo_url=src_repo_url)):
-            self.push_branch(local_repo=self._src_pool_path, base_branch=src_base_branch, branch_name=src_branch_name)
+    def pull_new_branch(self, src_repo_url, internal_base_branch, internal_branch_name, external_branch_name):
+        
+        if not(utils.branch_exists(branch_name=internal_branch_name, remote_repo_url=src_repo_url)):
+            self.push_branch(local_repo=self._src_pool_path, base_branch=internal_base_branch, branch_name=internal_branch_name)
             
         #copy content here to current branch.
-        subprocess.run(['git', '-C', self._src_pool_path, 'checkout', src_branch_name], shell=False)
-        subprocess.run(['git', '-C', self._dst_pool_path, 'checkout', dst_branch_name], shell=False)
+        subprocess.run(['git', '-C', self._src_pool_path, 'checkout', internal_branch_name], shell=False)
+        subprocess.run(['git', '-C', self._dst_pool_path, 'checkout', external_branch_name], shell=False)
 
         self.exclude_dst_repo_info()
         utils.copy_dir(self._dst_pool_path, self._src_pool_path)

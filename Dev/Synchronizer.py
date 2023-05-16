@@ -60,7 +60,7 @@ class Synchronizer:
         self._sync_pool.clean_pool()
         pass
 
-    def sync_external_internal_with_branch(self, internal_repo_url, external_repo_url, src_branch_base, dst_branch_name, src_branch_name = config.default_branch):
+    def sync_external_internal_with_branch(self, internal_repo_url, external_repo_url, src_branch_base, external_branch_name, internal_branch_name = config.default_branch):
         """_summary_
 
         Args:
@@ -73,8 +73,8 @@ class Synchronizer:
         self._sync_pool.pull_new_branch(
                                 src_repo_url = internal_repo_url, 
                                 src_base_branch = src_branch_base, 
-                                src_branch_name = src_branch_name, 
-                                dst_branch_name = dst_branch_name)
+                                src_branch_name = internal_branch_name, 
+                                dst_branch_name = external_branch_name)
         self._sync_pool.clean_pool()
         pass
  
