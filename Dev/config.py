@@ -1,1 +1,1 @@
-default_branch = 'main'
+default_branch = 'master'
