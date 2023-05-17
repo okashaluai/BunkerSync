@@ -25,9 +25,9 @@
 BunkerSync is a Python script that simplifies the process of syncing Git repositories. With BunkerSync, you can easily sync an internal repository with an external one and sync new branches from the external repository to the internal repository with support for filtering. BunkerSync is customizable and easy to use, making it an ideal tool for developers who need to keep their repositories in sync.
 
 ## Use cases [TO-UPDATE]
-  1. Publish an internal branch into external repository with option to filter.
-  2. Fetch external branches whose names startes with given prefix into our internal repository
-  3. Fetch a specific external branch into our internal repository
+  1. Publish an internal branch into external branch with option to filter.
+  2. Fetch external branches whose names startes with given prefix into internal branch.
+  3. Fetch a specific external branch into internal branch.
 
 ## Prerequisites
   1. Python >= 3.11
