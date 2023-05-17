@@ -5,7 +5,7 @@ with open("app/Readme.md", "r") as f:
 
 setup(
     name="BunkerSync",
-    version="0.0.10",
+    version="0.0.20",
     description="""BunkerSync simplifies Git repository syncing. 
                    Sync internal and external repositories with branch filtering and automatic syncing. 
                    Ideal for developers who need to keep repositories in sync.""",
@@ -18,7 +18,7 @@ setup(
     author_email= "LuaiOkasha@gmail.com",
     license="Apache",
     classifiers=[
-            "License :: OSI Approved Apache License",
+            "License :: OSI Approved :: Apache Software License",
             "Programming Language :: Python :: 3.11", 
             "Operating System :: OS Independent"
     ],
