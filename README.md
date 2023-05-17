@@ -32,7 +32,7 @@ BunkerSync is a Python script that simplifies the process of syncing Git reposit
 ## Prerequisites
   1. Python >= 3.11
   2. installed git
-  3. Tested on Unic/Win OS
+  3. Tested on Unix/Win OS
 
 ## Getting Started
   1. Use Case 1:
