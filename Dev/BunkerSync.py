@@ -40,14 +40,23 @@ def main():
 
     if args.publish:
         check_urls()
-        if args.branch is None:
+        if args.internal_branch is None:
             parser.error(
-                'branch argument is required when using -p/--publish.')
-        Synchronizer().sync_internal_external(
-            src_repo_url=args.internal,
-            dst_repo_url=args.external,
-            branch_name=args.branch,
-            filter_map_path=args.filter_map)
+                'internal_branch argument is required when using -p/--publish.')
+        if args.external_branch is None:
+            Synchronizer().sync_internal_external(
+                src_repo_url=args.internal,
+                dst_repo_url=args.external,
+                internal_branch_name=args.internal_branch,
+                filter_map_path=args.filter_map)
+        else: 
+            Synchronizer().sync_internal_external(
+                src_repo_url=args.internal,
+                dst_repo_url=args.external,
+                internal_branch_name=args.internal_branch,
+                external_branch_name=args.external_branch,
+                filter_map_path=args.filter_map)
+
     elif args.fetch:
         check_urls()
         prefix_fetch = not (args.prefix is None)
@@ -69,12 +78,12 @@ def main():
                    fetch_base=args.branch_base
                 )   
         elif branch_fetch:
+            if args.external_branch is None:
+                parser.error(
+                    'external_branch argument is required when using -f/--fetch.')            
             if args.internal_branch is None:
-                parser.error(
-                    'internal_branch argument is required when using -f/--fetch.')
-            elif args.external_branch is None:
-                parser.error(
-                    'external_branch argument is required when using -f/--fetch.')
+                args.internal_branch = args.external_branch
+
             if args.branch_base is None:
                 Synchronizer().sync_external_internal_with_branch(
                     internal_repo_url=args.internal,
