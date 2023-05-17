@@ -15,8 +15,8 @@ def main():
                         default=None,  type=str, help='Internal repository url.')
     parser.add_argument('-e', '--external', action='store',
                         default=None, type=str, help='External repository url.')
-    parser.add_argument('-b', '--branch', default=None, action='store', type=str,
-                        help='(Required when -p is on) Name of internal branch to be published to external repository.')
+    # parser.add_argument('-b', '--branch', default=None, action='store', type=str,
+    #                     help='(Required when -p is on) Name of internal branch to be published to external repository.')
     parser.add_argument('-@', '--prefix', default=None, action='store', type=str,
                         help='(Required when -f is on) Prefix of external branches to be pulled to internal repository.')
     parser.add_argument('-fm', '--filter_map', default=None, action='store', type=str,
