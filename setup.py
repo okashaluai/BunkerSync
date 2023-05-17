@@ -6,9 +6,7 @@ with open("app/README.md", "r") as f:
 setup(
     name="BunkerSync",
     version="0.0.20",
-    description="""BunkerSync simplifies Git repository syncing. 
-                   Sync internal and external repositories with branch filtering and automatic syncing. 
-                   Ideal for developers who need to keep repositories in sync.""",
+    description="""BunkerSync simplifies Git repository syncing. Sync internal and external repositories with branch filtering and automatic syncing. Ideal for developers who need to keep repositories in sync.""",
     package_dir={"": "app"},
     packages= find_packages(where="app"),
     long_description= long_description ,
