@@ -1,0 +1,7 @@
+LICENSE
+setup.py
+app/BunkerSync.egg-info/PKG-INFO
+app/BunkerSync.egg-info/SOURCES.txt
+app/BunkerSync.egg-info/dependency_links.txt
+app/BunkerSync.egg-info/requires.txt
+app/BunkerSync.egg-info/top_level.txt
