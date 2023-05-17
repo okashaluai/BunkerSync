@@ -172,7 +172,7 @@ class Sync_Pool:
                 new_branches.append(prefix +branch_name)
         return new_branches
 
-    def push_branch(self, local_repo, branch_name, base_branch = config.default_branch):
+    def push_branch(self, local_repo, branch_name, base_branch):
         """This function creates and pushes a new branch from the local repository to the remote repository.
 
         Args:
@@ -187,10 +187,10 @@ class Sync_Pool:
         pass
 
 
-    def pull_new_branch(self, src_repo_url, src_base_branch, src_branch_name, dst_branch_name):
+    def pull_new_branch(self, src_repo_url, src_base_branch, src_branch_name, dst_branch_name, internal_branch_base):
         
         if not(utils.check_branch_exists(branch_name=src_branch_name, remote_repo_url=src_repo_url)):
-            self.push_branch(local_repo=self._src_pool_path, base_branch=src_base_branch, branch_name=src_branch_name)
+            self.push_branch(local_repo=self._src_pool_path, base_branch=src_base_branch, branch_name=src_branch_name, base_branch = internal_branch_base)
             
         #copy content here to current branch.
         subprocess.run(['git', '-C', self._src_pool_path, 'checkout', src_branch_name], shell=False)
