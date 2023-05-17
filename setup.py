@@ -21,6 +21,5 @@ setup(
             "Operating System :: OS Independent"
     ],
     install_requires = ["git >= 2.40.0"],
-    extra_require={},
     python_requires = ">=3.11"
 )
