@@ -35,12 +35,12 @@ BunkerSync is a Python script that simplifies the process of syncing Git reposit
 
 ## Getting Started
   1. Use Case 1:
-      > BunkerSync -p -i=<internal_repo_url> -e=<external_repo_url> -b=<internal_branch_to_publish> -fm=<path_of_filter_map>
+      > BunkerSync -p -i=<internal_repo_url> -e=<external_repo_url> -ib=<internal_name_for_fetched_branch> -eb=<external_branch_to_fetch> -bb=<base_of_internal_fetched_branch> -fm=<path_of_filter_map>
   3. Use Case 2:
       > BunkerSync -f -i=<internal_repo_url> -e=<external_repo_url> -@=<prefix> -bb=<internal_base_of_fetched_branch>  
   4. Use Case 3:
       > BunkerSync -f -i=<internal_repo_url> -e=<external_repo_url> -eb=<external_branch_to_fetch> -ib=<internal_name_for_fetched_branch> -bb=<base_of_internal_fetched_branch>
-  * **-bb** is optional, default base would be 'master' branch.
+  * **-bb** is optional, default base would be 'master' branch, could be found in config.py file.
   * **-fm** is optional, otherwise no filtering would be executed.
   * In case you are not sure if you understood the args, see CLI Args below.
 
@@ -50,7 +50,6 @@ BunkerSync is a Python script that simplifies the process of syncing Git reposit
   &emsp; **-f**,&emsp;&emsp; &emsp;&ensp;&nbsp; **--fetch** &emsp;&emsp; &emsp;&emsp;&emsp;&emsp;         Option to fetch all new branches with a given prefix from external repository to the internal repository.\
   &emsp; **-i**,&emsp;&emsp; &emsp;&ensp;&nbsp; **--internal** &emsp;&emsp; &emsp;&emsp;&nbsp;&emsp;      Internal repository url.\
   &emsp; **-e**,&emsp;&emsp; &emsp;&ensp; **--external** &emsp;&emsp; &emsp;&emsp;&emsp;     External repository url.\
-  &emsp; **-b**,&emsp;&emsp; &emsp;&ensp; **--branch** &emsp;&emsp; &emsp;&emsp;&ensp;&emsp;        (Required when -p is on) Name of internal branch to be published to external repository.\
   &emsp; **-@**,&emsp;&emsp; &emsp;&ensp;**--prefix** &emsp;&emsp; &emsp;&emsp;&emsp;&emsp;        (Required when -f is on) Prefix of external branches to be pulled to internal repository.\
   &emsp; **-fm**,&emsp;&emsp; &emsp; **--filter_map** &emsp;&emsp; &emsp;                    Path of the filtering map that includes files or folders names to be filtered.\
   &emsp; **-ib**,&emsp;&emsp; &emsp; **--internal_branch** &emsp;&emsp; &emsp;               (Required when -f is on)The name of the branch in the internal repository.\
