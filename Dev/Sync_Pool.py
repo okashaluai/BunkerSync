@@ -103,7 +103,7 @@ class Sync_Pool:
         subprocess.run(['git', 'clone', '--branch', branch_name, src_repo_url, self._src_pool_path], shell=False)
         pass
 
-    def clone_src_dst(self, src_repo_url, dst_repo_url, branch_name):
+    def clone_src_dst(self, src_repo_url, dst_repo_url, branch_name, internal_branch_name, external_branch_name, external_branch_base):
         """_summary_
 
         Args:
@@ -111,17 +111,17 @@ class Sync_Pool:
             dst_repo_url (_type_): _description_
             branch_name (_type_): _description_
         """
-        if utils.check_branch_exists(dst_repo_url, branch_name):
-            print('Branch: "'+branch_name+'" exists in destination repository.\n')
+        if utils.check_branch_exists(dst_repo_url, external_branch_name):
+            print('Branch: "'+external_branch_name+'" exists in destination repository.\n')
             #clone branch of repositories src,dst -> pool
-            self.clone_src_branch(src_repo_url, branch_name)
-            self.clone_dst_branch(dst_repo_url, branch_name)
+            self.clone_src_branch(src_repo_url, internal_branch_name)
+            self.clone_dst_branch(dst_repo_url, external_branch_name)
         else:
             print('Branch: "'+branch_name+'" does not exist in destination repository.\n')
             self.clone_dst(dst_repo_url)
-            self.clone_src_branch(src_repo_url, branch_name)
+            self.clone_src_branch(src_repo_url, internal_branch_name)
             # subprocess.run(['git', 'clone', '--branch', branch_name, src_repo_url, self._src_pool_path], shell=False)
-            self.push_branch(self._dst_pool_path, branch_name)
+            self.push_branch(self._dst_pool_path, external_branch_name, external_branch_base)
     
     def local_merge(self):
         """This function performs a local merge of the changes from the source repository to the destination repository. 

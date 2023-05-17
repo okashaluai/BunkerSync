@@ -1,6 +1,6 @@
 from Synchronizer import Synchronizer
 import argparse
-
+import config
 
 def main():
 
@@ -43,19 +43,17 @@ def main():
         if args.internal_branch is None:
             parser.error(
                 'internal_branch argument is required when using -p/--publish.')
-        if args.external_branch is None:
-            Synchronizer().sync_internal_external(
-                src_repo_url=args.internal,
-                dst_repo_url=args.external,
-                internal_branch_name=args.internal_branch,
-                filter_map_path=args.filter_map)
-        else: 
-            Synchronizer().sync_internal_external(
-                src_repo_url=args.internal,
-                dst_repo_url=args.external,
-                internal_branch_name=args.internal_branch,
-                external_branch_name=args.external_branch,
-                filter_map_path=args.filter_map)
+        if args.internal_branch is None:
+            args.internal_branch = args.external_branch
+        if args.branch_base is None:
+            args.branch_base = config.external_default_beanch
+        Synchronizer().sync_internal_external(
+            src_repo_url=args.internal,
+            dst_repo_url=args.external,
+            internal_branch_name=args.internal_branch,
+            external_branch_name=args.external_branch,
+            external_branch_base = args.branch_base,
+            filter_map_path=args.filter_map)
 
     elif args.fetch:
         check_urls()
@@ -65,18 +63,14 @@ def main():
 
         if prefix_fetch:
             if args.branch_base is None:
-                Synchronizer().sync_external_internal_with_prefix(
-                    internal_repo_url=args.internal,
-                    external_repo_url=args.external,
-                    prefix=args.prefix
-                )
-            else    :
-                Synchronizer().sync_external_internal_with_prefix(
-                    internal_repo_url=args.internal,
-                    external_repo_url=args.external,
-                    prefix=args.prefix,
-                   fetch_base=args.branch_base
-                )   
+                args.branch_base = config.internal_default_beanch
+
+            Synchronizer().sync_external_internal_with_prefix(
+                internal_repo_url=args.internal,
+                external_repo_url=args.external,
+                prefix=args.prefix,
+                fetch_base=args.branch_base
+            )   
         elif branch_fetch:
             if args.external_branch is None:
                 parser.error(
@@ -85,20 +79,16 @@ def main():
                 args.internal_branch = args.external_branch
 
             if args.branch_base is None:
-                Synchronizer().sync_external_internal_with_branch(
-                    internal_repo_url=args.internal,
-                    external_repo_url=args.external,
-                    dst_branch_name=args.external_branch,
-                    src_branch_name=args.internal_branch
-                )
-            else:
-                Synchronizer().sync_external_internal_with_branch(
-                    internal_repo_url=args.internal,
-                    external_repo_url=args.external,
-                    dst_branch_name=args.external_branch,
-                    src_branch_name=args.internal_branch,
-                    src_branch_base=args.branch_base
-                )
+                args.branch_base = config.internal_default_beanch
+
+            Synchronizer().sync_external_internal_with_branch(
+                internal_repo_url=args.internal,
+                external_repo_url=args.external,
+                dst_branch_name=args.external_branch,
+                src_branch_name=args.internal_branch,
+                src_branch_base=args.branch_base
+            )
+                
         else:
             parser.error(
                 'When using -f/--fetch, one of two following cases is required (1) --prefix \n (2) --internal_branch, --external_branch and --branch_base')

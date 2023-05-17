@@ -16,7 +16,7 @@ class Synchronizer:
         self._sync_pool = Sync_Pool(pool_path)
         pass
     
-    def sync_internal_external(self, src_repo_url, dst_repo_url, branch_name, filter_map_path = None):
+    def sync_internal_external(self, src_repo_url, dst_repo_url, internal_branch_name, external_branch_name, external_branch_base, filter_map_path = None):
         """Synchronizes changes made to a source repository with a destination repository.
            Supports filtering mechanism by passing a filter object to the sync_pool object.
 
@@ -35,7 +35,12 @@ class Synchronizer:
                 filter_map_path = self._sync_pool._dst_pool_path / filter_map_path
         #################################################
 
-        self._sync_pool.clone_src_dst(src_repo_url, dst_repo_url, branch_name )
+        self._sync_pool.clone_src_dst(
+                                    src_repo_url=src_repo_url, 
+                                    dst_repo_url=dst_repo_url, 
+                                    internal_branch_name=internal_branch_name, 
+                                    external_branch_name=external_branch_name, 
+                                    external_branch_base= external_branch_base)
         self._sync_pool.local_merge()
         filter = None
         if not (filter_map_path is None):
