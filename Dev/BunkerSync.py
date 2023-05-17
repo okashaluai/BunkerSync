@@ -30,16 +30,16 @@ def main():
 
     args = parser.parse_args()
 
-    def check_urls():
-        if args.internal is None:
-            parser.error(
-                'Internal repository url should be specified as the following: --internal=<url> or -i=<url>')
-        if args.external is None:
-            parser.error(
-                'External repository url should be specified as the following: --external=<url> or -e=<url>')
+    # def check_urls():
+    #     if args.internal is None:
+    #         parser.error(
+    #             'Internal repository url should be specified as the following: --internal=<url> or -i=<url>')
+    #     if args.external is None:
+    #         parser.error(
+    #             'External repository url should be specified as the following: --external=<url> or -e=<url>')
 
     if args.publish:
-        check_urls()
+        # check_urls()
         if args.internal_branch is None:
             parser.error(
                 'internal_branch argument is required when using -p/--publish.')
@@ -56,7 +56,7 @@ def main():
             filter_map_path=args.filter_map)
 
     elif args.fetch:
-        check_urls()
+        # check_urls()
         prefix_fetch = not (args.prefix is None)
         branch_fetch = not ((args.internal_branch is None)) or not (
             (args.external_branch is None)) or not ((args.branch_base is None))
