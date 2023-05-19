@@ -103,7 +103,7 @@ class Sync_Pool:
         subprocess.run(['git', 'clone', '--branch', branch_name, src_repo_url, self._src_pool_path], shell=False)
         pass
 
-    def clone_src_dst(self, src_repo_url, dst_repo_url, branch_name, internal_branch_name, external_branch_name, external_branch_base):
+    def clone_src_dst(self, src_repo_url, dst_repo_url, internal_branch_name, external_branch_name, external_branch_base):
         """_summary_
 
         Args:
@@ -117,7 +117,7 @@ class Sync_Pool:
             self.clone_src_branch(src_repo_url, internal_branch_name)
             self.clone_dst_branch(dst_repo_url, external_branch_name)
         else:
-            print('Branch: "'+branch_name+'" does not exist in destination repository.\n')
+            print('Branch: "'+external_branch_name+'" does not exist in destination repository.\n')
             self.clone_dst(dst_repo_url)
             self.clone_src_branch(src_repo_url, internal_branch_name)
             # subprocess.run(['git', 'clone', '--branch', branch_name, src_repo_url, self._src_pool_path], shell=False)
