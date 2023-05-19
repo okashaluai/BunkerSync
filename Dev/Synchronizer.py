@@ -76,8 +76,7 @@ class Synchronizer:
         self._sync_pool.clone_src(internal_repo_url)
         self._sync_pool.clone_dst(external_repo_url)
         self._sync_pool.pull_new_branch(
-                                src_repo_url = internal_repo_url, 
-                                src_base_branch = src_branch_base, 
+                                src_repo_url = internal_repo_url,  
                                 src_branch_name = src_branch_name, 
                                 dst_branch_name = dst_branch_name,
                                 internal_branch_base = src_branch_name)
