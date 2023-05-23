@@ -6,6 +6,7 @@ import re
 from distutils import dir_util
 import stat
 import tempfile
+import random
 
 def onerror(func, path, exc_info):
     """
@@ -148,3 +149,9 @@ def get_temp_path():
     tmp_dir = tempfile.gettempdir()
     return tmp_dir
     pass
+
+def generate_random_number():
+    random.seed(1)
+    res = random.random() * (10 ** 12)
+    return int(res)
+
