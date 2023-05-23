@@ -3,8 +3,7 @@ import subprocess
 from distutils.dir_util import copy_tree
 import utils
 import re
-import os
-import config
+
 class Sync_Pool:
 
     def __init__(self, path):
@@ -186,6 +185,14 @@ class Sync_Pool:
         # subprocess.run(['git', '-C', local_repo, 'push', '--set-upstream', 'origin', branch_name], shell=False)
         pass
 
+    def src_pool_checkout(self, branch_name):
+        subprocess.run(['git', '-C', self._src_pool_path, 'checkout', branch_name], shell=False)
+        pass
+        
+    def dst_pool_checkout(self, branch_name):
+        subprocess.run(['git', '-C', self._dst_pool_path, 'checkout', branch_name], shell=False)
+
+        pass
 
     def pull_new_branch(self, src_repo_url, src_branch_name, dst_branch_name, internal_branch_base):
         

@@ -3,7 +3,6 @@ from Deletion_Filter import deletion_filter
 import os 
 from pathlib import Path
 import utils 
-import config 
 class Synchronizer:
     def __init__(self):
         tmp_dir = Path(utils.get_temp_path()) 
@@ -45,7 +44,7 @@ class Synchronizer:
         filter = None
         if not (filter_map_path is None):
             filter = deletion_filter(filter_map_path)
-        self._sync_pool.filter_src_pool(filter)
+        # self._sync_pool.filter_src_pool(filter)
         self._sync_pool.filter_dst_pool(filter)
         self._sync_pool.push_to_dst()
         self._sync_pool.clean_pool()
@@ -79,9 +78,39 @@ class Synchronizer:
                                 src_repo_url = internal_repo_url,  
                                 src_branch_name = src_branch_name, 
                                 dst_branch_name = dst_branch_name,
-                                internal_branch_base = src_branch_name)
+                                internal_branch_base = src_branch_base)
         self._sync_pool.clean_pool()
         pass
  
     
     
+
+    def sync(self, src_url, dst_url, src_branch_name, dst_branch_name, base_branch, filter_path):
+        if not(utils.check_branch_exists(src_url, src_branch_name)):
+            raise Exception('Source repository has no ' + src_branch_name + ' branch!')
+
+        self._sync_pool.clone_src(src_url)
+        self._sync_pool.clone_dst(dst_url)
+        self._sync_pool.src_pool_checkout(src_branch_name)
+        filter = None
+        if not (filter_path is None):
+            filter = deletion_filter(filter_path)
+        # self._sync_pool.filter_src_pool(filter)   : src or dst
+
+        if utils.check_branch_exists(dst_url, dst_branch_name):
+            # push temp branch 
+            # local merge : self._sync_pool.local_merge()
+            # PR temp branch to dst branch 
+            pass        
+
+        
+        else:
+            self._sync_pool.push_branch(self._sync_pool._dst_pool_path, 
+                                        dst_branch_name, 
+                                        base_branch)
+            self._sync_pool.local_merge()
+            self._sync_pool.push_to_dst()
+
+
+        self._sync_pool.clean_pool()
+        pass
