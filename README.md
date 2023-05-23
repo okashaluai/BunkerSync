@@ -24,17 +24,17 @@
 
 BunkerSync is a Python script that simplifies the process of syncing Git repositories. With BunkerSync, you can easily sync an internal repository with an external one and sync new branches from the external repository to the internal repository with support for filtering. BunkerSync is customizable and easy to use, making it an ideal tool for developers who need to keep their repositories in sync.
 
-## Use cases 
+## Use cases [to update after finishing the generalization stage]
   1. Publish an internal branch into external branch with option to filter.
   2. Fetch external branches whose names startes with given prefix into internal branch.
   3. Fetch a specific external branch into internal branch.
 
-## Prerequisites
-  1. Python >= 3.11
+## Prerequisites [to update after finishing the generalization stage]
+  1. Python >= 3.11 [to update after finishing the generalization stage]
   2. installed git
   3. Tested on Unix/Win OS with BitBacket and Gitlab git repositories.
 
-## Getting Started
+## Getting Started  [to update after finishing the generalization stage]
   1. Use Case 1:
       > BunkerSync -p -i=<internal_repo_url> -e=<external_repo_url> -ib=<internal_name_for_fetched_branch> -eb=<external_branch_to_fetch> -bb=<base_of_internal_fetched_branch> -fm=<path_of_filter_map>
   3. Use Case 2:
@@ -45,7 +45,7 @@ BunkerSync is a Python script that simplifies the process of syncing Git reposit
   * **-fm** is optional, otherwise no filtering would be executed.
   * In case you are not sure if you understood the args, see CLI Args below.
 
-## Command-line Arguments
+## Command-line Arguments  [to update after finishing the generalization stage]
   
   &emsp; **-p**,&emsp;&emsp; &emsp;&ensp; **--publish** &emsp;&emsp; &emsp;&emsp;&nbsp;&emsp;       Option to publish a given branch from internal repository to external repository.\
   &emsp; **-f**,&emsp;&emsp; &emsp;&ensp;&nbsp; **--fetch** &emsp;&emsp; &emsp;&emsp;&emsp;&emsp;         Option to fetch all new branches with a given prefix from external repository to the internal repository.\
